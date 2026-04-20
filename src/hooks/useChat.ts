@@ -81,14 +81,46 @@ export function useChat() {
         // Consume the generator
         const stream = streamAi(content, controller.signal);
         
+        const chars: string[] = [];
+        let isDone = false;
+
+        // ── Consumer Loop (UI Smoothing Frame Rate) ──
+        // This constantly pulls 1 character from the buffer every 15ms,
+        // guaranteeing a buttery-smooth typewriter effect regardless 
+        // of how "chunky" the internet connection is.
+        const drainBuffer = async () => {
+          let currentContent = '';
+          while (!isDone || chars.length > 0) {
+            if (controller.signal.aborted) break;
+            
+            if (chars.length > 0) {
+              const char = chars.shift()!;
+              currentContent += char;
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === aiMsgId ? { ...m, content: currentContent } : m
+                )
+              );
+            }
+            
+            // Pop the next character extremely quickly (approx 60fps)
+            await new Promise((r) => setTimeout(r, 15));
+          }
+        };
+
+        // Start the UI consumer loop in the background
+        const consumerPromise = drainBuffer();
+
+        // ── Producer Loop (Network Fetch) ──
         for await (const chunk of stream) {
           if (controller.signal.aborted) break;
-          setMessages((prev) =>
-            prev.map((m) =>
-              m.id === aiMsgId ? { ...m, content: m.content + chunk } : m
-            )
-          );
+          // Break the network chunk into an array of single characters and queue them
+          chars.push(...chunk.split('')); 
         }
+        isDone = true;
+        
+        // Wait for the UI consumer to finish typing the rest of the queue
+        await consumerPromise;
       } catch (err: any) {
         if (err.name !== 'AbortError') {
           console.error('Streaming error:', err);

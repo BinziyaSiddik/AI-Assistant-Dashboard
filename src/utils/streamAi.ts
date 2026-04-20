@@ -65,7 +65,13 @@ export async function* streamAi(
       },
       body: JSON.stringify({
         model: 'openrouter/free',
-        messages: [{ role: 'user', content: prompt }],
+        messages: [
+          { 
+            role: 'system', 
+            content: 'You are an incredibly helpful AI assistant embedded in a dashboard. If the user uses the command /approve, simply confirm politely that you have added their requested action to the Pending Approvals panel on the right, and ask if they need anything else.' 
+          },
+          { role: 'user', content: prompt }
+        ],
         stream: true,
       }),
       signal, // Cancels the HTTP connection natively if aborted

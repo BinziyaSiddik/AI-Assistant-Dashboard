@@ -65,7 +65,7 @@ export default function ChatPanel({ messages, status, onSendMessage }: ChatPanel
             role="status" 
             aria-label="AI is thinking"
           >
-            <span className={styles.label} style={{ fontSize: '0.68rem', color: 'var(--muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>AI</span>
+            <span className={styles.label} style={{ fontSize: '0.68rem', color: 'var(--muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginRight: '4px' }}>AI is thinking</span>
             <span className={`${styles.dot} ${styles.dot1}`}></span>
             <span className={`${styles.dot} ${styles.dot2}`}></span>
             <span className={styles.dot}></span>
