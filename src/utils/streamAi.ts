@@ -29,12 +29,14 @@ async function* fallbackSimulateStream(
 ): AsyncGenerator<string> {
   const lower = prompt.toLowerCase();
   const key = Object.keys(RESPONSES).find((k) => k !== 'default' && lower.includes(k)) ?? 'default';
-  const words = RESPONSES[key].split(' ');
+  const text = RESPONSES[key];
 
-  for (const word of words) {
+  // Stream character by character for a buttery-smooth typewriter effect
+  for (let i = 0; i < text.length; i++) {
     if (signal.aborted) return;
-    yield word + ' ';
-    await new Promise<void>((resolve) => setTimeout(resolve, 60 + Math.random() * 60));
+    yield text[i];
+    // Very fast delay (10-30ms per character) mimics true LLM token decoding smoothly
+    await new Promise<void>((resolve) => setTimeout(resolve, 10 + Math.random() * 20));
   }
 }
 
@@ -62,7 +64,7 @@ export async function* streamAi(
         'X-Title': 'AI Assistant Dashboard Task',
       },
       body: JSON.stringify({
-        model: 'mistralai/mistral-7b-instruct:free',
+        model: 'openrouter/free',
         messages: [{ role: 'user', content: prompt }],
         stream: true,
       }),
