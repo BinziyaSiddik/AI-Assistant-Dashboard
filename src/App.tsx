@@ -1,38 +1,41 @@
 import './index.css';
 import Dashboard from './components/Layout/Dashboard';
 import ApprovalsPanel from './components/ApprovalsPanel/ApprovalsPanel';
+import ChatPanel from './components/ChatPanel/ChatPanel';
 import { useApprovals } from './hooks/useApprovals';
+import { useChat } from './hooks/useChat';
 
 /**
  * App — root component.
  *
  * Owns top-level state via custom hooks and threads props down to panels.
- * Chat panel will be wired in Commit 5.
  */
 export default function App() {
-  const { approvals, exitingIds, announcement, approveItem, rejectItem } =
+  const { approvals, exitingIds, announcement, approveItem, rejectItem, addApproval } =
     useApprovals();
+    
+  const { messages, status, sendMessage } = useChat();
+
+  const handleSendMessage = (msg: string) => {
+    // We pass addApproval so useChat can handle the /approve bonus command
+    sendMessage(msg, (actionText) => {
+      addApproval({
+        id: crypto.randomUUID(),
+        action: actionText,
+        requestedAt: new Date().toISOString(),
+        meta: 'Added via chat command',
+      });
+    });
+  };
 
   return (
     <Dashboard
       chatPanel={
-        /* Placeholder — replaced in Commit 5 */
-        <div
-          style={{
-            background: 'var(--surface)',
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--radius)',
-            padding: '20px',
-            color: 'var(--muted)',
-            fontSize: '0.9rem',
-            minHeight: '480px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          Chat panel — coming in Commit 5
-        </div>
+        <ChatPanel 
+          messages={messages} 
+          status={status} 
+          onSendMessage={handleSendMessage} 
+        />
       }
       approvalsPanel={
         <ApprovalsPanel
