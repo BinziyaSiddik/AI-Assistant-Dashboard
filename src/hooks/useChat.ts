@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { simulateStream } from '../utils/simulateStream';
+import { streamAi } from '../utils/streamAi';
 import type { Message, ChatStatus } from '../types';
 
 /**
@@ -79,7 +79,7 @@ export function useChat() {
         setStatus('streaming');
 
         // Consume the generator
-        const stream = simulateStream(content, controller.signal);
+        const stream = streamAi(content, controller.signal);
         
         for await (const chunk of stream) {
           if (controller.signal.aborted) break;
