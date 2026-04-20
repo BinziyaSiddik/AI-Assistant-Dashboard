@@ -7,6 +7,7 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 14px 16px;
+  flex-shrink: 0; /* Prevents items from squashing together when list overflows */
   /* Entry animation — items slide in from above when added */
   animation: slideIn 250ms ease forwards;
   /* Exit transition — triggered by .exiting class */
