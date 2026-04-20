@@ -1,0 +1,109 @@
+/* ============================================================
+   ApprovalItem — single pending action card
+   ============================================================ */
+
+.item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  /* Entry animation — items slide in from above when added */
+  animation: slideIn 250ms ease forwards;
+  /* Exit transition — triggered by .exiting class */
+  transition:
+    opacity var(--transition-exit),
+    transform var(--transition-exit),
+    margin-bottom var(--transition-exit),
+    padding var(--transition-exit),
+    max-height var(--transition-exit);
+  max-height: 200px; /* Large enough to never clip; decreases on exit */
+  overflow: hidden;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Exit state — applied when the item is being dismissed */
+.exiting {
+  opacity: 0;
+  transform: translateY(-6px) scale(0.98);
+  max-height: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  pointer-events: none; /* Prevent further clicks during animation */
+}
+
+/* ── Action description ── */
+.action {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+/* ── Meta row (time ago · context label) ── */
+.meta {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+/* ── Button row ── */
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+/* Shared button base */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: var(--radius-sm);
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast);
+  letter-spacing: 0.02em;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* Approve — green tint */
+.approve {
+  background: var(--green-dim);
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.approve:hover {
+  background: #22c55e33;
+}
+
+/* Reject — red tint */
+.reject {
+  background: var(--red-dim);
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.reject:hover {
+  background: #ef444433;
+}
