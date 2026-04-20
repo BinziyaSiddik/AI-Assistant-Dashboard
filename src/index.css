@@ -1,0 +1,98 @@
+/* ============================================================
+   Global CSS — Design Tokens & Reset
+   Matches the dark theme from the assignment mockup exactly.
+   All component-level styles use CSS Modules; this file only
+   contains: reset, custom properties, and base typography.
+   ============================================================ */
+
+/* ---------- Box model reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- Design tokens ---------- */
+:root {
+  /* Colours */
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface-alt: #12141e; /* Deeper surface for nav bar, code blocks */
+  --border: #2a2d3e;
+  --accent: #6c63ff;
+  --accent-dim: #6c63ff22;
+  --accent-hover: #7c74ff;
+  --text: #e2e4f0;
+  --muted: #7b7e99;
+  --green: #22c55e;
+  --green-dim: #22c55e22;
+  --red: #ef4444;
+  --red-dim: #ef444422;
+  --yellow: #f59e0b;
+
+  /* Shape */
+  --radius: 10px;
+  --radius-sm: 6px;
+
+  /* Typography */
+  --font: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-exit: 350ms ease; /* Must match JS setTimeout in useApprovals */
+}
+
+/* ---------- Base ---------- */
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  line-height: 1.6;
+  /* Smooth font rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- Focus visible — accessible ring for keyboard nav ---------- */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------- Scrollbar (Webkit) — subtle dark styling ---------- */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* ---------- Utility: screen-reader only ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
