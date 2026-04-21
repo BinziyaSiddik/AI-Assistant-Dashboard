@@ -95,7 +95,14 @@ graph LR
 
 ## How I Used AI
 
-I used Claude (via Antigravity) to architect the dashboard's task flow and generate the project structure step-by-step. This allowed me to follow the build process closely and perform manual testing at every stage. When I encountered issues during testing, I used the AI to help troubleshoot and rectify those specific errors. As a final quality check, I verified with the AI that my implementation met every specific requirement listed in the assignment file.
+I used Claude (via Antigravity) as a supporting tool, but I drove the overall design and decisions. I first defined the architecture and feature approach myself, then used AI to help translate those ideas into a structured implementation plan.
+
+Rather than accepting outputs directly, I guided the AI with specific requirements from the assignment and iteratively refined its suggestions. I used it to scaffold components, validate edge cases (such as streaming behavior and concurrent interactions), and troubleshoot targeted issues that arose during manual testing.
+
+At each stage, I verified the behavior in the browser and adjusted the implementation where needed. As a final step, I cross-checked the completed solution against the assignment requirements using AI to ensure nothing was missed.
+
+Overall, AI was used as a productivity and validation tool, while all key decisions, refinements, and final implementations were controlled and reviewed by me.
+
 
 ---
 
@@ -141,4 +148,8 @@ Currently, I instantiate `useChat()` and `useApprovals()` globally at the top le
 
 ### Q4 — One thing the AI got wrong
 **Describe one specific thing your AI tool suggested or generated that you had to change.**
-When the AI first generated the `ApprovalsPanel.tsx`, it did not include any scrolling. So when I tested the app by adding several approval items, the new ones just stacked on top of each other and went off the screen, there was no way to scroll down to see them all. I noticed this directly during manual verification testing and asked the AI to fix it. It added the correct `overflow-y-auto` styles to the panel CSS container, which solved the problem seamlessly.
+When generating the initial version of ApprovalsPanel.tsx, the AI did not follow the layout behavior I had intended. My plan was for the approvals panel to act as a scrollable container so that it could handle an arbitrary number of items without breaking the layout.
+
+However, the AI’s implementation rendered the items in a static container without any overflow handling. During manual testing, I noticed that as more approval items were added, they extended beyond the visible panel and became inaccessible, which directly contradicted the intended UX.
+
+I identified this mismatch and corrected it by explicitly adding a scrollable container (overflow-y-auto) to the panel. This aligned the implementation with the original design goal and ensured the panel remained usable regardless of the number of items.
