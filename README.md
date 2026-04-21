@@ -1,5 +1,7 @@
 # AI Assistant Dashboard
 
+**✨ Live Demo Base Link:** [https://ai-assistant-dashboard-chi.vercel.app](https://ai-assistant-dashboard-chi.vercel.app)
+
 ## Overview
 A robust, highly performant single-page React application functioning as the frontend for an AI assistant. This application demonstrates real-world UI patterns, including decoupled streaming AI text generation, concurrent animation handling, accessibility compliance, and clean component-driven architecture. 
 

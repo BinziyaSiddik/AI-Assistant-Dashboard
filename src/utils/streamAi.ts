@@ -66,9 +66,9 @@ export async function* streamAi(
       body: JSON.stringify({
         model: 'openrouter/free',
         messages: [
-          { 
-            role: 'system', 
-            content: 'You are an incredibly helpful AI assistant embedded in a dashboard. If the user uses the command /approve, simply confirm politely that you have added their requested action to the Pending Approvals panel on the right, and ask if they need anything else.' 
+          {
+            role: 'system',
+            content: 'You are an incredibly helpful AI assistant embedded in a dashboard. If the user uses the command /approve, simply confirm politely that you have added their requested action to the Pending Approvals panel on the right, and ask if they need anything else.'
           },
           { role: 'user', content: prompt }
         ],
@@ -95,7 +95,7 @@ export async function* streamAi(
 
       buffer += decoder.decode(value, { stream: true });
       const lines = buffer.split('\n');
-      
+
       // The last line might be incomplete, so we keep it in the buffer
       buffer = lines.pop() ?? '';
 
@@ -111,10 +111,10 @@ export async function* streamAi(
         }
       }
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
     // If it was cancelled intentionally by the user/unmount, don't fall back, just stop
-    if (err.name === 'AbortError') return;
-    
+    if (err instanceof Error && err.name === 'AbortError') return;
+
     // Otherwise, the API failed (e.g. rate limit, bad key). Explain it and gracefully fall back
     console.warn('Real AI API failed, falling back to simulation:', err);
     yield* fallbackSimulateStream(prompt, signal);

@@ -121,11 +121,16 @@ export function useChat() {
         
         // Wait for the UI consumer to finish typing the rest of the queue
         await consumerPromise;
-      } catch (err: any) {
-        if (err.name !== 'AbortError') {
-          console.error('Streaming error:', err);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          if (err.name !== 'AbortError') {
+            console.error('Streaming error:', err);
+            setStatus('idle');
+          }
+        } else {
+          console.error('Unknown streaming error:', err);
+          setStatus('idle');
         }
-      } finally {
         if (!controller.signal.aborted) {
           setStatus('idle');
           abortControllerRef.current = null;
