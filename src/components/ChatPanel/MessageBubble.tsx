@@ -1,4 +1,4 @@
-import { ReactNode, memo } from 'react';
+import { type ReactNode, memo } from 'react';
 import type { Message } from '../../types';
 import styles from './MessageBubble.module.css';
 

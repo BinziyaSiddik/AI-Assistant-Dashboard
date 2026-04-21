@@ -139,4 +139,4 @@ Currently, I instantiate `useChat()` and `useApprovals()` globally at the top le
 
 ### Q4 — One thing the AI got wrong
 **Describe one specific thing your AI tool suggested or generated that you had to change.**
-When the AI first generated the `ApprovalsPanel.tsx`, it did not include any scrolling. So when I tested the app by adding several approval items, the new ones just stacked on top of each other and went off the screen — there was no way to scroll down to see them all. I noticed this directly during manual verification testing and asked the AI to fix it. It added the correct `overflow-y-auto` styles to the panel CSS container, which solved the problem seamlessly.
+When the AI first generated the `ApprovalsPanel.tsx`, it did not include any scrolling. So when I tested the app by adding several approval items, the new ones just stacked on top of each other and went off the screen, there was no way to scroll down to see them all. I noticed this directly during manual verification testing and asked the AI to fix it. It added the correct `overflow-y-auto` styles to the panel CSS container, which solved the problem seamlessly.
