@@ -121,6 +121,7 @@ export function useChat() {
         
         // Wait for the UI consumer to finish typing the rest of the queue
         await consumerPromise;
+        setStatus('idle'); // Re-enable input after success
       } catch (err: unknown) {
         if (err instanceof Error) {
           if (err.name !== 'AbortError') {

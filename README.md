@@ -89,7 +89,7 @@ graph LR
     UC -. "/approve command" .-> UA
 ```
 
-* **Framework:** React + TypeScript scaffolded via Vite for optimized hot-module replacement and rapid bundling.
+* **Framework:** React + TypeScript scaffolded via Vite. While Next.js is the preferred stack and well-suited for full-stack or SSR-enabled applications, I chose Vite for this assignment because the dashboard is a purely client-side interface with no backend or routing requirements. This allowed me to focus on building the core UI interactions without additional framework complexity. Vite’s fast development server and minimal setup also enabled quicker iteration during the limited time frame. For a production environment or a more feature-complete application, I would be comfortable using Next.js and its ecosystem.
 * **Styling:** CSS Modules with raw CSS variables. This choice explicitly bypasses utility classes (like Tailwind) to demonstrate strong fundamental CSS competency and scope isolation.
 * **State Management:** Utilizes localized native React hooks (`useState`, `useRef`, `useEffect`). Global state containers (e.g., Redux) were intentionally avoided to prevent over-engineering a primarily two-panel data flow.
 
@@ -148,8 +148,10 @@ Currently, I instantiate `useChat()` and `useApprovals()` globally at the top le
 
 ### Q4 — One thing the AI got wrong
 **Describe one specific thing your AI tool suggested or generated that you had to change.**
-When generating the initial version of ApprovalsPanel.tsx, the AI did not follow the layout behavior I had intended. My plan was for the approvals panel to act as a scrollable container so that it could handle an arbitrary number of items without breaking the layout.
+When scaffolding the approvals list, the AI initially suggested using a single state variable (e.g., removingId) to track which item was being dismissed.
 
-However, the AI’s implementation rendered the items in a static container without any overflow handling. During manual testing, I noticed that as more approval items were added, they extended beyond the visible panel and became inaccessible, which directly contradicted the intended UX.
+This didn’t match the behavior I had in mind. While testing, I realized that if a user quickly clicked "Approve" on multiple items, the single state value would be overwritten by subsequent clicks. This caused earlier animations to get interrupted, resulting in abrupt UI transitions.
 
-I identified this mismatch and corrected it by explicitly adding a scrollable container (overflow-y-auto) to the panel. This aligned the implementation with the original design goal and ensured the panel remained usable regardless of the number of items.
+To address this, I redesigned the state to track multiple items using an exitingIds collection. This allowed each item to manage its own transition independently, ensuring smooth and consistent behavior even during rapid interactions.
+
+This was a case where the AI-generated approach worked for a simple scenario but didn’t fully account for real user interaction patterns, which required a more robust solution.
